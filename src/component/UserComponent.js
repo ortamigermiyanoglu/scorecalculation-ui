@@ -14,6 +14,7 @@ function UserComponent(){
     const [userIdentityNumber, setUserIdentityNumber] = useState(null);
     const [cityTrafficCode, setCityTrafficCode] = useState(0);
     const [totalScore, setTotalScore] = useState(null);
+    const [incomeTranchFactor,  setIncomeTranchFactor] = useState(0);
 
     useEffect(()=>{
         UserService.getuserCreateModel().then((response) => {
@@ -39,10 +40,11 @@ function UserComponent(){
 
         UserService.createUpdateUser({createUserDTO}).then((response) => {
             Promise.all([
-                UserService.getCityScore({cityTrafficCode}), 
-                UserService.getSegmentScore({userIdentityNumber})
+                UserService.getSegmentScore({userIdentityNumber}),
+                UserService.getIncomeTrancheFactor({incomeTrancheCode}),
+                UserService.getCityScore({cityTrafficCode})
             ]).then((values) => {
-                setTotalScore(values.reduce((a,b) => a.data*b.data))
+                setTotalScore(values[0].data*values[1].data + values[2].data)
               });
         })
     }
