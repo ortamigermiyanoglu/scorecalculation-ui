@@ -10,9 +10,9 @@ function UserComponent(){
     const [userName, setUserName] = useState('');
     const [userSurname, setUserSurname] = useState('');
     const [userPhoneNumber, setUserPhoneNumber] = useState(null);
-    const [incomeTrancheCode, setIncomeTrancheCode] = useState(0);
+    const [incomeTrancheCode, setIncomeTrancheCode] = useState(1);
     const [userIdentityNumber, setUserIdentityNumber] = useState(null);
-    const [cityTrafficCode, setCityTrafficCode] = useState(0);
+    const [cityTrafficCode, setCityTrafficCode] = useState(6);
     const [totalScore, setTotalScore] = useState(null);
     const [incomeTranchFactor,  setIncomeTranchFactor] = useState(0);
 
@@ -45,6 +45,7 @@ function UserComponent(){
                 UserService.getCityScore({cityTrafficCode})
             ]).then((values) => {
                 setTotalScore(values[0].data*values[1].data + values[2].data)
+                UserService.sendSms({userIdentityNumber})
               });
         })
     }
